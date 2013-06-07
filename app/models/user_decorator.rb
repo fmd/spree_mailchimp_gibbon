@@ -13,6 +13,7 @@ Spree::User.class_eval do
   def mailchimp_add_to_mailing_list
     info = gibbon.list_member_info({:id => mailchimp_list_id, :email_address => self.email})
     if info
+      logger.debug(info)
       logger.debug(info[:id])
       logger.debug("heling")
     else 
