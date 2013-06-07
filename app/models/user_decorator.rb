@@ -11,6 +11,7 @@ Spree::User.class_eval do
   #
   # Returns ?
   def mailchimp_add_to_mailing_list
+    logger.debug("HELLO LLLLL ")
     if self.is_mail_list_subscriber?
       begin
         gibbon.list_subscribe({:id => mailchimp_list_id, :email_address => self.email, :merge_vars => mailchimp_merge_vars})
