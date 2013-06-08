@@ -14,7 +14,7 @@ Spree::User.class_eval do
     if self.is_mail_list_subscriber?
       begin
         response = gibbon.list_member_info({:id => mailchimp_list_id, :email_address => self.email}).with_indifferent_access
-        if response[:success] == 1:
+        if response[:success] == 1
           member = response[:data][0]
           self.mailchimp_subscriber_id = member[:id]
         else 
