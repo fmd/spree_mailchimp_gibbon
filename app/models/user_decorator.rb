@@ -11,20 +11,16 @@ Spree::User.class_eval do
   #
   # Returns ?
   def mailchimp_add_to_mailing_list
-    info = gibbon.list_member_info({:id => mailchimp_list_id, :email_address => self.email})
-    if info
-      logger.debug(info)
-      logger.debug(info["data"])
-      logger.debug("heling")
-    else 
-      logger.debug(info)
-      logger.debug("goodbee")
-    end
-
     if self.is_mail_list_subscriber?
       begin
-        gibbon.list_subscribe({:id => mailchimp_list_id, :email_address => self.email, :merge_vars => mailchimp_merge_vars})
-        logger.debug "Fetching new mailchimp subscriber info"
+        response = gibbon.list_member_info({:id => mailchimp_list_id, :email_address => self.email}).with_indifferent_access
+        if response[:success] == 1:
+          member = response[:data][0]
+          self.mailchimp_subscriber_id = member[:id]
+        else 
+          gibbon.list_subscribe({:id => mailchimp_list_id, :email_address => self.email, :merge_vars => mailchimp_merge_vars})
+          logger.debug "Fetching new mailchimp subscriber info"
+        end
 
         assign_mailchimp_subscriber_id if self.mailchimp_subscriber_id.blank?
       rescue => ex
@@ -72,7 +68,6 @@ Spree::User.class_eval do
 
       if response[:success] == 1
         member = response[:data][0]
-
         self.mailchimp_subscriber_id = member[:id]
       end
     rescue  => ex
