@@ -3,7 +3,6 @@ require 'exceptional'
 class Spree::SubscriptionsController < Spree::BaseController
 
   def create
-    logger.debug("HELLO BOOOPY")
     @errors = []
 
     if params[:email].blank?
@@ -21,7 +20,6 @@ class Spree::SubscriptionsController < Spree::BaseController
       end
 
       if @mc_member
-        logger.debug(@mc_member)
         @errors << t('that_address_is_already_subscribed')
       else
         begin
@@ -45,8 +43,7 @@ class Spree::SubscriptionsController < Spree::BaseController
   private
 
     def gibbon
-      logger.debug("FUCK YOU")
-	   @gibbon ||= Gibbon.new(Spree::Config.get(:mailchimp_api_key))	
+	    @gibbon ||= Gibbon.new(Spree::Config.get(:mailchimp_api_key))	
     end
 
 end
