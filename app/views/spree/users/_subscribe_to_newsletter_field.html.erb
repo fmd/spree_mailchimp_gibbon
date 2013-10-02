@@ -1,4 +1,4 @@
 <p class="login_newsletter_subscribe">
-  <%= check_box :spree_user, true, :class => 'title'  %>
+  <%= check_box :spree_user, :is_mail_list_subscriber, :class => 'title', 'active'  %>
   <%= label :spree_user, :is_mail_list_subscriber, t(:do_subscribe_to_our_mailing_list) %>
 </p>
